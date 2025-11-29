@@ -6,26 +6,27 @@
     var copyError = function(e) {
         var key;
         if (/Mac/i.test(navigator.userAgent)) {
-          key = '&#8984;';
+          key = '⌘';
         } else {
           key = 'Ctrl';
         }
-        $(e.trigger).attr('title', "Press " + key + "-C to copy" )
-                 .tooltip('fixTitle')
-                 .tooltip('show');
+        var originalText = e.trigger.textContent;
+        e.trigger.textContent = "Press " + key + "+C to copy";
+        setTimeout(function() {
+            e.trigger.textContent = originalText;
+        }, 2000);
     };
 
     var copySuccess = function(e) {
-        $(e.trigger).attr('title', 'Copied!')
-                 .tooltip('fixTitle')
-                 .tooltip('show');
+        var originalText = e.trigger.textContent;
+        e.trigger.textContent = '✓ Copied!';
+        setTimeout(function() {
+            e.trigger.textContent = originalText;
+        }, 2000);
         e.clearSelection();
-
     };
 
     clipboard.on('success', copySuccess);
     clipboard.on('error', copyError);
-
-    $(targetButtonSelector).tooltip();
 
 })();

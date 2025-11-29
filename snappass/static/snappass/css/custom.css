@@ -1,17 +1,40 @@
+/* Custom styles for SnapPass with Pico.css */
+
 html {
     position: relative;
     min-height: 100%;
 }
 
-.break-word {
-    word-wrap: break-word;
-}
-
-.margin-bottom-10 {
-    margin-bottom: 10px;
-}
-
-input[readonly].readonly-text {
-    background-color: #fff;
+/* Make readonly inputs look like regular inputs */
+input[readonly],
+textarea[readonly] {
+    background-color: var(--pico-background-color);
     cursor: text;
+    opacity: 1;
+}
+
+/* Center form content with max width */
+section {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Add spacing for better readability */
+section > * + * {
+    margin-top: 1rem;
+}
+
+/* Improve button appearance */
+button {
+    width: 100%;
+}
+
+/* Make nav link unstyled */
+header nav a {
+    text-decoration: none;
+    color: inherit;
+}
+
+header nav a:hover {
+    text-decoration: underline;
 }
