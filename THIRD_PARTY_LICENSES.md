@@ -10,14 +10,15 @@ The following SVG icons are used under the CC Attribution License:
 - **Source**: https://www.svgrepo.com/svg/510939/copy
 - **License**: CC Attribution License (https://creativecommons.org/licenses/by/4.0/)
 - **Modifications**: Changed stroke color from #000000 to white
-- **Location**: `snappass/static/images/copy-svgrepo-com.svg`
+- **Location**: `snappass/static/images/copy.svg`
 - **Used in**: `snappass/templates/password.html`, `snappass/templates/confirm.html`
 
 ### Link Break Icon
 - **Source**: https://www.svgrepo.com/svg/511041/link-break
 - **License**: CC Attribution License (https://creativecommons.org/licenses/by/4.0/)
-- **Modifications**: Inlined in template with stroke changed to currentColor for theme adaptation
-- **Location**: `snappass/static/images/link-break-svgrepo-com.svg`, inlined in `snappass/templates/expired.html`
+- **Modifications**: None - used as CSS mask for theme adaptation
+- **Location**: `snappass/static/images/link-break.svg`
+- **Used in**: `snappass/templates/expired.html` via CSS mask in `snappass/static/snappass/css/custom.css`
 
 ### Check Big Icon
 - **Source**: https://www.svgrepo.com/svg/510899/check-big
