@@ -1,9 +1,14 @@
-/* Custom styles for SnapPass with Pico.css */
+/* Pico.css customizations */
+
+:root {
+    --pico-font-size: 100%; /* stop pico scaling text */
+}
 
 html, body {
     height: 100%;
 }
 
+/* Center body content */
 body {
     display: flex;
     flex-direction: column;
@@ -11,26 +16,36 @@ body {
     min-height: 100vh;
 }
 
-/* Center the main page header */
+/* Center the base.html header */
 main.container > h1 {
     text-align: center;
     margin-bottom: 2rem;
+    font-weight: 500;
 }
 
-/* Center form content with max width */
+/* Center section content */
 section {
     max-width: 600px;
     margin: 0 auto;
+    padding: var(--pico-spacing);
+    border: 1px solid color-mix(in srgb, var(--pico-secondary-border) 25%, transparent);
+    border-radius: 0.5rem;
 }
 
-/* Add spacing for better readability */
+/* Add spacing for section content */
 section > * + * {
     margin-top: 1rem;
 }
 
-/* Improve button appearance */
-button {
+/* Center section paragraphs */
+section > p {
+    text-align: center;
+}
+
+/* Make buttons full width */
+button[type="button"], button[type="submit"] {
     width: 100%;
+    margin-bottom: 0;
 }
 
 .red {
