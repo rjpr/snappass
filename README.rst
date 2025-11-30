@@ -100,6 +100,12 @@ need to change this.
 
 ``SNAPPASS_PORT``: (optional) Used to override the default port of 5000 Example: ``6000``
 
+``SITE_TITLE``: (optional) Used to customize the site title. If not set, defaults to the translated "Snappass - Share Secrets". Example: ``"Share Secrets | My Company"``
+
+``DEFAULT_TTL``: (optional) Used to set the default expiry time in the password creation form. Valid values are ``hour``, ``day``, ``week``, or ``two weeks`` (case-insensitive). Defaults to ``week``.
+
+``THEME_COLOR``: (optional) Used to customize the primary theme color. Supports Pico CSS theme names: ``amber``, ``blue``, ``cyan``, ``fuchsia``, ``green``, ``grey``, ``indigo``, ``jade``, ``lime``, ``orange``, ``pink``, ``pumpkin``, ``purple``, ``red``, ``sand``, ``slate``, ``violet``, ``yellow``, ``zinc``. Also accepts custom CSS color values (hex, rgb, hsl, etc.) as fallback. Examples: ``THEME_COLOR=pumpkin`` or ``THEME_COLOR=#57ff33``
+
 APIs
 ----
 
