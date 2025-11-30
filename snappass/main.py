@@ -26,7 +26,8 @@ if os.environ.get('DEBUG'):
 app.secret_key = os.environ.get('SECRET_KEY', 'Secret Key')
 app.config.update(
     dict(STATIC_URL=os.environ.get('STATIC_URL', 'static'),
-         SITE_TITLE=os.environ.get('SITE_TITLE')))
+         SITE_TITLE=os.environ.get('SITE_TITLE'),
+         DEFAULT_TTL=os.environ.get('DEFAULT_TTL', 'week')))
 
 
 # Set up Babel
