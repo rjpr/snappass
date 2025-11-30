@@ -5,9 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
-    <link href="{{ config.STATIC_URL }}/snappass/css/custom.css" rel="stylesheet">
-    {% include '_theme_styles.html' %}
+    {% if config.THEME_COLOR and config.THEME_COLOR.lower() in config.PICO_THEMES %}
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.{{ config.THEME_COLOR.lower() }}.min.css">
+    {% else %}
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+      {% include '_theme_styles.html' %}
+    {% endif %}
+    <link rel="stylesheet" href="{{ config.STATIC_URL }}/snappass/css/custom.css">
   </head>
   <body>
     <main class="container">

@@ -25,10 +25,11 @@ if os.environ.get('DEBUG'):
     app.debug = True
 app.secret_key = os.environ.get('SECRET_KEY', 'Secret Key')
 app.config.update(
-    dict(STATIC_URL=os.environ.get('STATIC_URL', 'static'),
+    dict(PICO_THEMES=['amber', 'blue', 'cyan', 'fuchsia', 'green', 'grey', 'indigo', 'jade', 'lime', 'orange', 'pink', 'pumpkin', 'purple', 'red', 'sand', 'slate', 'violet', 'yellow', 'zinc']),
+         STATIC_URL=os.environ.get('STATIC_URL', 'static'),
          SITE_TITLE=os.environ.get('SITE_TITLE'),
          DEFAULT_TTL=os.environ.get('DEFAULT_TTL', 'week'),
-         THEME_COLOR=os.environ.get('THEME_COLOR')))
+         THEME_COLOR=os.environ.get('THEME_COLOR'))
 
 
 # Set up Babel
