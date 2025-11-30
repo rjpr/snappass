@@ -23,8 +23,8 @@ main.container > h1 {
     font-weight: 500;
 }
 
-/* Center section content */
-section {
+/* Center card content */
+article {
     max-width: 600px;
     margin: 0 auto;
     padding: var(--pico-spacing);
@@ -32,13 +32,13 @@ section {
     border-radius: 0.5rem;
 }
 
-/* Add spacing for section content */
-section > * + * {
+/* Add spacing for card content */
+article > * + * {
     margin-top: 1rem;
 }
 
-/* Center section paragraphs */
-section > p {
+/* Center card paragraphs */
+article > p {
     text-align: center;
 }
 
