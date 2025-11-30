@@ -4,11 +4,12 @@
 <section>
   <p>{{ _('Secret link created. Share this one-time use URL:') }}</p>
   
-  <input type="text" id="password-link" value="{{ password_link }}" readonly>
-  
-  <button type="button" id="copy-clipboard-btn" data-clipboard-target="#password-link">
-    {{ _('Copy to clipboard') }}
-  </button>
+  <div role="group">
+    <input type="text" id="password-link" value="{{ password_link }}" readonly style="text-overflow: ellipsis;">
+    <button type="button" id="copy-clipboard-btn" class="copy-btn" data-clipboard-target="#password-link" data-tooltip="{{ _('Copy to clipboard') }}" data-placement="top">
+      <img src="{{ config.STATIC_URL }}/images/copy.svg" alt="" width="26">
+    </button>
+  </div>
 </section>
 {% endblock %}
 

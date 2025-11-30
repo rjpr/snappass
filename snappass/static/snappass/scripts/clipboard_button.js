@@ -10,18 +10,25 @@
         } else {
           key = 'Ctrl';
         }
-        var originalText = e.trigger.textContent;
-        e.trigger.textContent = "Press " + key + "+C to copy";
+        var originalTooltip = e.trigger.getAttribute('data-tooltip');
+        e.trigger.setAttribute('data-tooltip', "Press " + key + "+C to copy");
         setTimeout(function() {
-            e.trigger.textContent = originalText;
+            e.trigger.setAttribute('data-tooltip', originalTooltip);
         }, 2000);
     };
 
     var copySuccess = function(e) {
-        var originalText = e.trigger.textContent;
-        e.trigger.textContent = '✓ Copied!';
+        var img = e.trigger.querySelector('img');
+        var originalTooltip = e.trigger.getAttribute('data-tooltip');
+        var originalSrc = img.src;
+        
+        // Swap to check icon and update tooltip
+        img.src = img.src.replace('copy.svg', 'check-big.svg');
+        e.trigger.setAttribute('data-tooltip', 'Copied!');
+        
         setTimeout(function() {
-            e.trigger.textContent = originalText;
+            img.src = originalSrc;
+            e.trigger.setAttribute('data-tooltip', originalTooltip);
         }, 2000);
         e.clearSelection();
     };

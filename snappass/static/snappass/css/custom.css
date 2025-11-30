@@ -19,7 +19,7 @@ body {
 /* Center the base.html header */
 main.container > h1 {
     text-align: center;
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
     font-weight: 500;
 }
 
@@ -42,12 +42,54 @@ section > p {
     text-align: center;
 }
 
-/* Make buttons full width */
+/* Buttons */
 button[type="button"], button[type="submit"] {
-    width: 100%;
     margin-bottom: 0;
 }
 
+button.full-width {
+    width: 100%;
+}
+
+button.copy-btn {
+    padding: 0 1rem;
+    width: auto;
+}
+
+/* Copy button positioned in textarea */
+.textarea-wrapper {
+    position: relative;
+}
+
+.textarea-wrapper textarea {
+    padding-right: 3.5rem; /* Space for button */
+}
+
+.copy-btn-overlay {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    padding: 0.5rem;
+    margin-bottom: 0;
+}
+
+/* Expired icon - uses CSS mask for theme adaptation */
+.expired-icon {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+    background-color: black;
+    -webkit-mask: url('../../images/link-break.svg') center/contain no-repeat;
+    mask: url('../../images/link-break.svg') center/contain no-repeat;
+}
+
+@media (prefers-color-scheme: dark) {
+    .expired-icon {
+        background-color: white;
+    }
+}
+
+/* Miscellaneous */
 .red {
     color: #e74c3c;
 }
