@@ -27,7 +27,8 @@ app.secret_key = os.environ.get('SECRET_KEY', 'Secret Key')
 app.config.update(
     dict(STATIC_URL=os.environ.get('STATIC_URL', 'static'),
          SITE_TITLE=os.environ.get('SITE_TITLE'),
-         DEFAULT_TTL=os.environ.get('DEFAULT_TTL', 'week')))
+         DEFAULT_TTL=os.environ.get('DEFAULT_TTL', 'week'),
+         THEME_COLOR=os.environ.get('THEME_COLOR')))
 
 
 # Set up Babel

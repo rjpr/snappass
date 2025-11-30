@@ -1,0 +1,29 @@
+{% if config.THEME_COLOR %}
+<style>
+  :root[data-theme=light], :root:not([data-theme=dark]), :host:not([data-theme=dark]) {
+    --pico-primary: {{ config.THEME_COLOR }};
+    --pico-primary-background: {{ config.THEME_COLOR }};
+    --pico-primary-border: {{ config.THEME_COLOR }};
+    --pico-primary-underline: {{ config.THEME_COLOR }};
+    --pico-primary-hover: color-mix(in srgb, {{ config.THEME_COLOR }} 90%, black);
+    --pico-primary-hover-background: color-mix(in srgb, {{ config.THEME_COLOR }} 92%, black);
+    --pico-primary-hover-border: color-mix(in srgb, {{ config.THEME_COLOR }} 92%, black);
+    --pico-primary-focus: color-mix(in srgb, {{ config.THEME_COLOR }} 90%, black);
+  }
+
+  @media only screen and (prefers-color-scheme: dark) {
+    :root:not([data-theme]),
+    :host:not([data-theme]) {
+      --pico-primary: {{ config.THEME_COLOR }};
+      --pico-primary-background: {{ config.THEME_COLOR }};
+      --pico-primary-border: {{ config.THEME_COLOR }};
+      --pico-primary-underline: {{ config.THEME_COLOR }};
+      --pico-primary-hover: color-mix(in srgb, {{ config.THEME_COLOR }} 90%, white);
+      --pico-primary-hover-background: color-mix(in srgb, {{ config.THEME_COLOR }} 92%, white);
+      --pico-primary-hover-border: color-mix(in srgb, {{ config.THEME_COLOR }} 92%, white);
+      --pico-primary-focus: color-mix(in srgb, {{ config.THEME_COLOR }} 90%, white);
+    }
+  }
+</style>
+{% endif %}
+
