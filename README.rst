@@ -94,6 +94,8 @@ need to change this.
 
 ``REDIS_PREFIX``: (optional, defaults to ``"snappass"``) prefix used on redis keys to prevent collisions with other potential clients
 
+``TOKEN_PREFIX``: (optional, defaults to empty string) prefix used in URL tokens, separate from the Redis storage prefix. This allows you to customize the visible token in URLs independently from the Redis key prefix. For example, with ``TOKEN_PREFIX=myapp`` and ``REDIS_PREFIX=prod``, URLs will contain tokens like ``myappXXX~key`` while Redis stores them as ``prodXXX``. Example: ``TOKEN_PREFIX=myapp``
+
 ``HOST_OVERRIDE``: (optional) Used to override the base URL if the app is unaware. Useful when running behind reverse proxies like an identity-aware SSO. Example: ``sub.domain.com``
 
 ``SNAPPASS_BIND_ADDRESS``: (optional) Used to override the default bind address of 0.0.0.0 for flask app Example: ``127.0.0.1``
@@ -104,7 +106,9 @@ need to change this.
 
 ``DEFAULT_TTL``: (optional) Used to set the default expiry time in the password creation form. Valid values are ``hour``, ``day``, ``week``, or ``two weeks`` (case-insensitive). Defaults to ``week``.
 
-``THEME_COLOR``: (optional) Used to customize the primary theme color. Supports Pico CSS theme names: ``amber``, ``blue``, ``cyan``, ``fuchsia``, ``green``, ``grey``, ``indigo``, ``jade``, ``lime``, ``orange``, ``pink``, ``pumpkin``, ``purple``, ``red``, ``sand``, ``slate``, ``violet``, ``yellow``, ``zinc``. Also accepts custom CSS color values (hex, rgb, hsl, etc.) as fallback. Examples: ``THEME_COLOR=pumpkin`` or ``THEME_COLOR=#57ff33``
+``THEME_COLOR``: (optional) Used to customize the primary theme color. Supports Pico CSS theme names: ``amber``, ``blue``, ``cyan``, ``fuchsia``, ``green``, ``grey``, ``indigo``, ``jade``, ``lime``, ``orange``, ``pink``, ``pumpkin``, ``purple``, ``red``, ``sand``, ``slate``, ``violet``, ``yellow``, ``zinc`` (see `Pico CSS Version Picker`__ to preview colors). Also accepts custom CSS color values (hex, rgb, hsl, etc.) as fallback. Examples: ``THEME_COLOR=pumpkin`` or ``THEME_COLOR=#57ff33``
+
+.. __: https://picocss.com/docs/version-picker/
 
 ``THEME_MODE``: (optional) Force light or dark mode regardless of system preference. Valid values are ``light`` or ``dark``. If not set, the theme automatically switches based on the user's system preference. Example: ``THEME_MODE=dark``
 

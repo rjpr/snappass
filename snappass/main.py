@@ -54,6 +54,7 @@ else:
     redis_client = redis.StrictRedis(
         host=redis_host, port=redis_port, db=redis_db)
 REDIS_PREFIX = os.environ.get('REDIS_PREFIX', 'snappass')
+TOKEN_PREFIX = os.environ.get('TOKEN_PREFIX', '')
 
 TIME_CONVERSION = {'two weeks': 1209600, 'week': 604800, 'day': 86400,
                    'eight hours': 28800, 'hour': 3600}
@@ -99,7 +100,17 @@ def decrypt(password, decryption_key):
 
 def parse_token(token):
     token_fragments = token.split(TOKEN_SEPARATOR, 1)  # Split once, not more.
-    storage_key = token_fragments[0]
+    token_key = token_fragments[0]
+    
+    # Extract UUID by removing TOKEN_PREFIX if present
+    if TOKEN_PREFIX and token_key.startswith(TOKEN_PREFIX):
+        uuid_part = token_key[len(TOKEN_PREFIX):]
+    else:
+        # No prefix, token_key is the UUID
+        uuid_part = token_key
+    
+    # Reconstruct storage_key with REDIS_PREFIX
+    storage_key = REDIS_PREFIX + uuid_part
 
     try:
         decryption_key = token_fragments[1].encode('utf-8')
@@ -148,11 +159,13 @@ def set_password(password, ttl):
     Returns a token comprised of the key where the encrypted password
     is stored, and the decryption key.
     """
-    storage_key = REDIS_PREFIX + uuid.uuid4().hex
+    uuid_part = uuid.uuid4().hex
+    storage_key = REDIS_PREFIX + uuid_part
     encrypted_password, encryption_key = encrypt(password)
     redis_client.setex(storage_key, ttl, encrypted_password)
     encryption_key = encryption_key.decode('utf-8')
-    token = TOKEN_SEPARATOR.join([storage_key, encryption_key])
+    token_key = TOKEN_PREFIX + uuid_part
+    token = TOKEN_SEPARATOR.join([token_key, encryption_key])
     return token
 
 
