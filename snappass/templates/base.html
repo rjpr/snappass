@@ -1,5 +1,9 @@
 <!DOCTYPE html>
+{% if config.THEME_MODE and config.THEME_MODE.lower() in ['light', 'dark'] %}
+<html lang="{{ _('en') }}" data-theme="{{ config.THEME_MODE.lower() }}">
+{% else %}
 <html lang="{{ _('en') }}">
+{% endif %}
   <head>
     <title>{{ config.SITE_TITLE if config.SITE_TITLE else _('Snappass - Share Secrets') }}</title>
     <meta charset="UTF-8">

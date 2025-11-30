@@ -106,6 +106,8 @@ need to change this.
 
 ``THEME_COLOR``: (optional) Used to customize the primary theme color. Supports Pico CSS theme names: ``amber``, ``blue``, ``cyan``, ``fuchsia``, ``green``, ``grey``, ``indigo``, ``jade``, ``lime``, ``orange``, ``pink``, ``pumpkin``, ``purple``, ``red``, ``sand``, ``slate``, ``violet``, ``yellow``, ``zinc``. Also accepts custom CSS color values (hex, rgb, hsl, etc.) as fallback. Examples: ``THEME_COLOR=pumpkin`` or ``THEME_COLOR=#57ff33``
 
+``THEME_MODE``: (optional) Force light or dark mode regardless of system preference. Valid values are ``light`` or ``dark``. If not set, the theme automatically switches based on the user's system preference. Example: ``THEME_MODE=dark``
+
 APIs
 ----
 
