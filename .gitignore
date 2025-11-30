@@ -54,3 +54,6 @@ ENV/
 # Translation catalogs
 *.mo
 *.pot
+
+# Misc 
+.DS_Store

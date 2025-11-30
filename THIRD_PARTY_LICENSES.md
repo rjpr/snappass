@@ -26,3 +26,10 @@ The following SVG icons are used under the CC Attribution License:
 - **Location**: `snappass/static/images/check-big.svg`
 - **Used in**: Copy success feedback via `snappass/static/snappass/scripts/clipboard_button.js`
 
+### Arrow Right MD Icon
+- **Source**: https://www.svgrepo.com/svg/510814/arrow-right-md
+- **License**: CC Attribution License (https://creativecommons.org/licenses/by/4.0/)
+- **Modifications**: None - used as CSS mask for theme adaptation
+- **Location**: `snappass/static/images/arrow-right-md.svg`
+- **Used in**: `snappass/templates/confirm.html`, `snappass/templates/password.html` via CSS mask in `snappass/static/snappass/css/custom.css`
+

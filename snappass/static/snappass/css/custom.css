@@ -47,7 +47,7 @@ button[type="button"], button[type="submit"] {
     margin-bottom: 0;
 }
 
-button.full-width {
+button.full-width, a.full-width {
     width: 100%;
 }
 
@@ -87,6 +87,18 @@ button.copy-btn {
     .expired-icon {
         background-color: white;
     }
+}
+
+/* Arrow icon - uses CSS mask colored with primary theme color */
+.arrow-icon {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    vertical-align: middle;
+    margin-left: 0.25rem;
+    background-color: currentColor;
+    -webkit-mask: url('../../images/arrow-right-md.svg') center/contain no-repeat;
+    mask: url('../../images/arrow-right-md.svg') center/contain no-repeat;
 }
 
 /* Miscellaneous */
