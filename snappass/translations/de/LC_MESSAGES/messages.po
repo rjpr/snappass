@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-02-22 11:01+0100\n"
+"POT-Creation-Date: 2025-11-30 00:47+0000\n"
 "PO-Revision-Date: 2024-02-16 09:29+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: de\n"
@@ -16,15 +16,15 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.14.0\n"
+"Generated-By: Babel 2.17.0\n"
 
 #: snappass/templates/base.html:2
 msgid "en"
 msgstr "de"
 
 #: snappass/templates/base.html:4
-msgid "Snappass - Share Secrets"
-msgstr "Snappass - Passwörter teilen"
+msgid "Share Secrets"
+msgstr "Passwörter teilen"
 
 #: snappass/templates/base.html:14
 msgid "Share a secret"
@@ -39,8 +39,8 @@ msgid ""
 "The secret has been temporarily saved. Send the following URL to your "
 "intended recipient."
 msgstr ""
-"Das Passwort wurde vorübergehend gespeichert. Senden Sie die folgende "
-"URL an Ihren gewünschten Empfänger."
+"Das Passwort wurde vorübergehend gespeichert. Senden Sie die folgende URL"
+" an Ihren gewünschten Empfänger."
 
 #: snappass/templates/confirm.html:10 snappass/templates/password.html:10
 msgid "Copy to clipboard"
@@ -53,17 +53,17 @@ msgid ""
 "earlier."
 msgstr ""
 "Die angeforderte URL wurde auf dem Server nicht gefunden. Dies könnte "
-"daran liegen, dass die URL nie ein Passwort enthielt, das "
-"Passwort abgelaufen ist oder es bereits offengelegt wurde."
+"daran liegen, dass die URL nie ein Passwort enthielt, das Passwort "
+"abgelaufen ist oder es bereits offengelegt wurde."
 
 #: snappass/templates/expired.html:6
 msgid ""
 "If this URL was sent to you by someone, make sure to check your spelling "
 "or ask the person who sent it to you to send a new secret."
 msgstr ""
-"Wenn Ihnen diese URL von jemandem gesendet wurde, überprüfen Sie "
-"ob Sie die URL korrekt eingegeben haben oder bitten Sie den/die "
-"Absender/in, Ihnen ein neues Passwort zu senden."
+"Wenn Ihnen diese URL von jemandem gesendet wurde, überprüfen Sie ob Sie "
+"die URL korrekt eingegeben haben oder bitten Sie den/die Absender/in, "
+"Ihnen ein neues Passwort zu senden."
 
 #: snappass/templates/password.html:5
 msgid "Save the following secret to a secure location."
@@ -86,16 +86,25 @@ msgstr "Sie können auf das Passwort nur einmal zugreifen!"
 msgid "Reveal secret"
 msgstr "Passwort anzeigen"
 
+#: snappass/templates/set_password.html:7
+#, fuzzy
+msgid "Your Secret"
+msgstr "Passwort anzeigen"
+
 #: snappass/templates/set_password.html:8
 msgid ""
 "SnapPass allows you to share secrets in a secure, ephemeral way. Input a "
 "single or multi-line secret, its expiration time, and click Generate URL."
 " Share the one-time use URL with your intended recipient."
 msgstr ""
-"SnapPass ermöglicht es Ihnen, Passwörter auf sichere, kurzlebige Weise zu "
-"teilen. Geben Sie ein ein- oder mehrzeiliges Passwort ein, legen Sie die "
-"Ablaufzeit fest und klicken Sie auf 'URL generieren'. Teilen Sie die URL "
-"für den einmaligen Gebrauch mit dem beabsichtigten Empfänger."
+"SnapPass ermöglicht es Ihnen, Passwörter auf sichere, kurzlebige Weise zu"
+" teilen. Geben Sie ein ein- oder mehrzeiliges Passwort ein, legen Sie die"
+" Ablaufzeit fest und klicken Sie auf 'URL generieren'. Teilen Sie die URL"
+" für den einmaligen Gebrauch mit dem beabsichtigten Empfänger."
+
+#: snappass/templates/set_password.html:12
+msgid "Expires In"
+msgstr ""
 
 #: snappass/templates/set_password.html:14
 msgid "Two Weeks"

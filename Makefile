@@ -11,3 +11,14 @@ run: prod
 
 test:
 	PYTHONPATH=snappass venv/bin/nosetests -s tests
+
+translations:
+	docker run --rm \
+	  -v $(PWD)/babel.cfg:/usr/src/snappass/babel.cfg:ro \
+	  -v $(PWD)/snappass:/usr/src/snappass/snappass \
+	  -w /usr/src/snappass \
+	  rjpr/snappass bash -c " \
+	    pybabel extract -F babel.cfg -o messages.pot . && \
+	    pybabel update -i messages.pot -d snappass/translations && \
+	    pybabel compile -d snappass/translations && \
+	    rm messages.pot"

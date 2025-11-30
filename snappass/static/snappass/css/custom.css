@@ -17,14 +17,6 @@ main.container > h1 {
     margin-bottom: 2rem;
 }
 
-/* Make readonly inputs look like regular inputs */
-input[readonly],
-textarea[readonly] {
-    background-color: var(--pico-background-color);
-    cursor: text;
-    opacity: 1;
-}
-
 /* Center form content with max width */
 section {
     max-width: 600px;
@@ -39,4 +31,8 @@ section > * + * {
 /* Improve button appearance */
 button {
     width: 100%;
+}
+
+.red {
+    color: #e74c3c;
 }
