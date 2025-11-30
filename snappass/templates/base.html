@@ -9,15 +9,13 @@
     <link href="{{ config.STATIC_URL }}/snappass/css/custom.css" rel="stylesheet">
   </head>
   <body>
-    <header>
-      <nav>
-        <ul>
-          <li><strong><a href="/">{{ _('Share Secret') }}</a></strong></li>
-        </ul>
-      </nav>
-    </header>
-
     <main class="container">
+      {% if request.endpoint in ['index', 'handle_password'] %}
+        <h1>{{ _('Share a secret') }}</h1>
+      {% else %}
+        <h1>{{ _('View shared secret') }}</h1>
+      {% endif %}
+      
       {% block content %}{% endblock %}
     </main>
 

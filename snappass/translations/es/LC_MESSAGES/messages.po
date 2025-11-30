@@ -26,15 +26,15 @@ msgstr "es"
 msgid "Snappass - Share Secrets"
 msgstr "Snappass - Compartir secretos"
 
+#: snappass/templates/base.html:14
+msgid "Share a secret"
+msgstr "Compartir un secreto"
+
 #: snappass/templates/base.html:16
-msgid "Share Secret"
-msgstr "Compartir secretos"
+msgid "View shared secret"
+msgstr "Ver secreto compartido"
 
-#: snappass/templates/confirm.html:6
-msgid "Share Secret Link"
-msgstr "Compartir enlace secreto"
-
-#: snappass/templates/confirm.html:7
+#: snappass/templates/confirm.html:5
 msgid ""
 "The secret has been temporarily saved. Send the following URL to your "
 "intended recipient."
@@ -42,15 +42,11 @@ msgstr ""
 "El secreto se ha guardado temporalmente. Envíe la siguiente URL a "
 "sudestinatario previsto."
 
-#: snappass/templates/confirm.html:14 snappass/templates/password.html:14
+#: snappass/templates/confirm.html:10 snappass/templates/password.html:10
 msgid "Copy to clipboard"
 msgstr "Copiar en el portapapeles"
 
-#: snappass/templates/expired.html:6
-msgid "Secret not found"
-msgstr "Secreto no encontrado"
-
-#: snappass/templates/expired.html:7
+#: snappass/templates/expired.html:5
 msgid ""
 "The requested URL was not found on the server. This could be because this"
 " URL never contained a secret, or because it expired or was revealed "
@@ -60,7 +56,7 @@ msgstr ""
 "estoLa URL nunca contenía un secreto, o porque caducó o fue revelado "
 "Antes."
 
-#: snappass/templates/expired.html:8
+#: snappass/templates/expired.html:6
 msgid ""
 "If this URL was sent to you by someone, make sure to check your spelling "
 "or ask the person who sent it to you to send a new secret."
@@ -68,15 +64,11 @@ msgstr ""
 "Si alguien te envió esta URL, asegúrate de revisar tu ortografíaO pídele "
 "a la persona que te lo envió que te envíe un nuevo secreto."
 
-#: snappass/templates/password.html:6 snappass/templates/preview.html:7
-msgid "Secret"
-msgstr "Secreto"
-
-#: snappass/templates/password.html:7
+#: snappass/templates/password.html:5
 msgid "Save the following secret to a secure location."
 msgstr "Guarda el siguiente secreto en un lugar seguro."
 
-#: snappass/templates/password.html:21
+#: snappass/templates/password.html:13
 msgid ""
 "The secret has now been permanently deleted from the system, and the URL "
 "will no longer work. Refresh this page to verify."
@@ -84,19 +76,15 @@ msgstr ""
 "El secreto ahora se ha eliminado permanentemente del sistema, y la URL Ya"
 " no funcionará. Actualiza esta página para verificarlo."
 
-#: snappass/templates/preview.html:9
+#: snappass/templates/preview.html:5
 msgid "You can only reveal the secret once!"
 msgstr "¡Solo puedes revelar el secreto una vez!"
 
-#: snappass/templates/preview.html:12
+#: snappass/templates/preview.html:7
 msgid "Reveal secret"
 msgstr "Revelar secreto"
 
-#: snappass/templates/set_password.html:6
-msgid "Set Secret"
-msgstr "Establecer secreto"
-
-#: snappass/templates/set_password.html:12
+#: snappass/templates/set_password.html:8
 msgid ""
 "SnapPass allows you to share secrets in a secure, ephemeral way. Input a "
 "single or multi-line secret, its expiration time, and click Generate URL."
@@ -107,19 +95,19 @@ msgstr ""
 "haga clic en Generar URL.Comparta la URL de un solo uso con el "
 "destinatario previsto\""
 
-#: snappass/templates/set_password.html:18
+#: snappass/templates/set_password.html:14
 msgid "Two Weeks"
 msgstr "Dos semanas"
 
-#: snappass/templates/set_password.html:19
+#: snappass/templates/set_password.html:15
 msgid "Week"
 msgstr "Semana"
 
-#: snappass/templates/set_password.html:20
+#: snappass/templates/set_password.html:16
 msgid "Day"
 msgstr "Día"
 
-#: snappass/templates/set_password.html:21
+#: snappass/templates/set_password.html:17
 msgid "Eight Hours"
 msgstr "Ocho horas"
 
@@ -127,7 +115,7 @@ msgstr "Ocho horas"
 msgid "Hour"
 msgstr "Hora"
 
-#: snappass/templates/set_password.html:27
+#: snappass/templates/set_password.html:21
 msgid "Generate URL"
 msgstr "Generar URL"
 

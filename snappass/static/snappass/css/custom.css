@@ -1,8 +1,20 @@
 /* Custom styles for SnapPass with Pico.css */
 
-html {
-    position: relative;
-    min-height: 100%;
+html, body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+/* Center the main page header */
+main.container > h1 {
+    text-align: center;
+    margin-bottom: 2rem;
 }
 
 /* Make readonly inputs look like regular inputs */
@@ -27,14 +39,4 @@ section > * + * {
 /* Improve button appearance */
 button {
     width: 100%;
-}
-
-/* Make nav link unstyled */
-header nav a {
-    text-decoration: none;
-    color: inherit;
-}
-
-header nav a:hover {
-    text-decoration: underline;
 }
