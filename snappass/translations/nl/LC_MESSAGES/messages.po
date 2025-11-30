@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-11-30 00:47+0000\n"
+"POT-Creation-Date: 2025-11-30 21:45+0000\n"
 "PO-Revision-Date: 2024-02-14 21:16+0100\n"
 "Last-Translator: \n"
 "Language: nl\n"
@@ -18,112 +18,89 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: snappass/templates/base.html:2
+#: snappass/templates/base.html:3 snappass/templates/base.html:5
 msgid "en"
 msgstr "nl"
 
-#: snappass/templates/base.html:4
-msgid "Share Secrets"
-msgstr "Deel Wachtwoorden"
+#: snappass/templates/base.html:8
+msgid "Snappass - Share Secrets"
+msgstr "Snappass - Deel Wachtwoorden"
 
-#: snappass/templates/base.html:14
+#: snappass/templates/base.html:23
 msgid "Share a secret"
 msgstr "Deel een geheim"
 
-#: snappass/templates/base.html:16
+#: snappass/templates/base.html:25
 msgid "View shared secret"
 msgstr "Bekijk gedeeld geheim"
 
 #: snappass/templates/confirm.html:5
-msgid ""
-"The secret has been temporarily saved. Send the following URL to your "
-"intended recipient."
-msgstr ""
-"Het wachtwoord is tijdelijk opgeslagen. Deel de volgende URL aan de "
-"bedoelde ontvanger."
+msgid "Secret link created. Share this one-time use URL:"
+msgstr "Geheime link aangemaakt. Deel deze eenmalig te gebruiken URL:"
 
-#: snappass/templates/confirm.html:10 snappass/templates/password.html:10
+#: snappass/templates/confirm.html:9 snappass/templates/password.html:7
 msgid "Copy to clipboard"
 msgstr "Kopieer naar het klembord"
 
-#: snappass/templates/expired.html:5
-msgid ""
-"The requested URL was not found on the server. This could be because this"
-" URL never contained a secret, or because it expired or was revealed "
-"earlier."
-msgstr ""
-"De gevraagde URL is niet gevonden op de server. Dat kan omdat deze geen "
-"wachtwoord bevat, het is verlopen of het al eerder getoond is."
+#: snappass/templates/confirm.html:15
+msgid "Share Another Secret"
+msgstr "Deel nog een geheim"
 
 #: snappass/templates/expired.html:6
-msgid ""
-"If this URL was sent to you by someone, make sure to check your spelling "
-"or ask the person who sent it to you to send a new secret."
-msgstr ""
-"Als deze URL naar u is toegestuurd, controleer de spelling of vraag de "
-"verzender om een nieuw wachtwoord link te versturen."
+msgid "The secret you're looking for is missing or has expired."
+msgstr "Het geheim dat u zoekt ontbreekt of is verlopen."
 
-#: snappass/templates/password.html:5
-msgid "Save the following secret to a secure location."
-msgstr "Bewaar het wachtwoord op een veilige plek."
+#: snappass/templates/password.html:12
+msgid "Secret has been deleted. This link can't be used again."
+msgstr "Het geheim is verwijderd. Deze link kan niet opnieuw worden gebruikt."
 
-#: snappass/templates/password.html:13
-msgid ""
-"The secret has now been permanently deleted from the system, and the URL "
-"will no longer work. Refresh this page to verify."
-msgstr ""
-"Het wachtwoord is permanent verwijderd van het systeem, de URL werkt niet"
-" meer. Herlaad deze pagina ter verificatie"
+#: snappass/templates/password.html:15
+msgid "Share Your Own Secret"
+msgstr "Deel je eigen geheim"
 
 #: snappass/templates/preview.html:5
-msgid "You can only reveal the secret once!"
-msgstr "Het wachtwoord wordt slechts eenmaal getoond!"
+msgid "This secret will be permanently deleted after you view it."
+msgstr "Dit geheim wordt permanent verwijderd nadat u het hebt bekeken."
 
-#: snappass/templates/preview.html:7
-msgid "Reveal secret"
-msgstr "Onthul wachtwoord"
+#: snappass/templates/preview.html:6
+msgid "View Secret"
+msgstr "Bekijk geheim"
 
 #: snappass/templates/set_password.html:7
-#, fuzzy
 msgid "Your Secret"
-msgstr "Onthul wachtwoord"
+msgstr "Je geheim"
 
 #: snappass/templates/set_password.html:8
-msgid ""
-"SnapPass allows you to share secrets in a secure, ephemeral way. Input a "
-"single or multi-line secret, its expiration time, and click Generate URL."
-" Share the one-time use URL with your intended recipient."
+msgid "Enter sensitive data to share via an encrypted, one-time use link..."
 msgstr ""
-"We stellen je in staat om wachtwoorden op een veilige, tijdelijke manier "
-"te delen. Voer een enkel- of meerregelig wachtwoord in, stel de "
-"vervaltijd in, en klik op 'URL genereren'. Deel de eenmalig te gebruiken "
-"URL met de beoogde ontvanger."
+"Voer gevoelige gegevens in om te delen via een versleutelde link voor "
+"eenmalig gebruik..."
 
 #: snappass/templates/set_password.html:12
 msgid "Expires In"
-msgstr ""
-
-#: snappass/templates/set_password.html:14
-msgid "Two Weeks"
-msgstr "Twee weken"
+msgstr "Verloopt over"
 
 #: snappass/templates/set_password.html:15
-msgid "Week"
-msgstr "Week"
+msgid "1 hour"
+msgstr "1 uur"
 
 #: snappass/templates/set_password.html:16
-msgid "Day"
-msgstr "Dag"
+msgid "8 hours"
+msgstr "8 uur"
 
 #: snappass/templates/set_password.html:17
-msgid "Eight Hours"
-msgstr "Acht uur"
+msgid "1 day"
+msgstr "1 dag"
 
-#: snappass/templates/set_password.html:22
-msgid "Hour"
-msgstr "Uur"
+#: snappass/templates/set_password.html:18
+msgid "7 days"
+msgstr "7 dagen"
 
-#: snappass/templates/set_password.html:21
-msgid "Generate URL"
-msgstr "URL genereren"
+#: snappass/templates/set_password.html:19
+msgid "14 days"
+msgstr "14 dagen"
+
+#: snappass/templates/set_password.html:27
+msgid "Create Secret Link"
+msgstr "Maak geheime link aan"
 
