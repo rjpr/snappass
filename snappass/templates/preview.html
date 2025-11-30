@@ -1,10 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-<section>
-  <p><strong>{{ _('You can only reveal the secret once!') }}</strong></p>
-  
-  <button id="revealSecret" type="button">{{ _('Reveal secret') }}</button>
+<section>  
+  <p>{{ _('This secret will be deleted after you view it.') }}</p>
+  <button id="revealSecret" type="button">{{ _('View Secret') }}</button>
 </section>
 {% endblock %}
 

@@ -2,12 +2,12 @@
 
 {% block content %}
 <section>
-  <p>{{ _('The secret has been temporarily saved. Send the following URL to your intended recipient.') }}</p>
+  <p>{{ _('Secret link created. Share this one-time use URL:') }}</p>
   
   <input type="text" id="password-link" value="{{ password_link }}" readonly>
   
   <button type="button" id="copy-clipboard-btn" data-clipboard-target="#password-link">
-    📋 {{ _('Copy to clipboard') }}
+    {{ _('Copy to clipboard') }}
   </button>
 </section>
 {% endblock %}
