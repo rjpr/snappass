@@ -6,26 +6,34 @@
     var copyError = function(e) {
         var key;
         if (/Mac/i.test(navigator.userAgent)) {
-          key = '&#8984;';
+          key = '⌘';
         } else {
           key = 'Ctrl';
         }
-        $(e.trigger).attr('title', "Press " + key + "-C to copy" )
-                 .tooltip('fixTitle')
-                 .tooltip('show');
+        var originalTooltip = e.trigger.getAttribute('data-tooltip');
+        e.trigger.setAttribute('data-tooltip', "Press " + key + "+C to copy");
+        setTimeout(function() {
+            e.trigger.setAttribute('data-tooltip', originalTooltip);
+        }, 2000);
     };
 
     var copySuccess = function(e) {
-        $(e.trigger).attr('title', 'Copied!')
-                 .tooltip('fixTitle')
-                 .tooltip('show');
+        var img = e.trigger.querySelector('img');
+        var originalTooltip = e.trigger.getAttribute('data-tooltip');
+        var originalSrc = img.src;
+        
+        // Swap to check icon and update tooltip
+        img.src = img.src.replace('copy.svg', 'check-big.svg');
+        e.trigger.setAttribute('data-tooltip', 'Copied!');
+        
+        setTimeout(function() {
+            img.src = originalSrc;
+            e.trigger.setAttribute('data-tooltip', originalTooltip);
+        }, 2000);
         e.clearSelection();
-
     };
 
     clipboard.on('success', copySuccess);
     clipboard.on('error', copyError);
-
-    $(targetButtonSelector).tooltip();
 
 })();

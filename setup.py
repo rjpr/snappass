@@ -2,11 +2,12 @@ from setuptools import setup
 
 setup(
     name='snappass',
-    version='1.6.2',
+    version='2.0.0-pre',
     description="It's like SnapChat... for Passwords.",
-    long_description=(open('README.rst').read() + '\n\n' +
-                      open('AUTHORS.rst').read()),
-    url='http://github.com/Pinterest/snappass/',
+    long_description=(open('README.md').read() + '\n\n' +
+                      open('AUTHORS.md').read()),
+    long_description_content_type='text/markdown',
+    url='http://github.com/rjpr/snappass/',
     install_requires=['Flask', 'redis', 'cryptography'],
     license='MIT',
     author='Dave Dash',

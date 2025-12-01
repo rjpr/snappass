@@ -1,8 +1,11 @@
 .project
 *.rdb
 junit*xml
-
 env/
+
+# Docker
+docker-compose.override.yml
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -54,3 +57,6 @@ ENV/
 # Translation catalogs
 *.mo
 *.pot
+
+# Mac files 
+.DS_Store

@@ -1,0 +1,36 @@
+# Third Party Licenses
+
+This document lists third-party assets and their licenses used in rjpr/SnapPass.
+
+## SVG Icons from SVG Repo
+
+The following SVG icons are used under the CC Attribution License:
+
+### Copy Icon
+- **Source**: https://www.svgrepo.com/svg/510939/copy
+- **License**: CC Attribution License (https://creativecommons.org/licenses/by/4.0/)
+- **Modifications**: Changed stroke color from #000000 to white
+- **Location**: `snappass/static/images/copy.svg`
+- **Used in**: `snappass/templates/password.html`, `snappass/templates/confirm.html`
+
+### Link Break Icon
+- **Source**: https://www.svgrepo.com/svg/511041/link-break
+- **License**: CC Attribution License (https://creativecommons.org/licenses/by/4.0/)
+- **Modifications**: None - used as CSS mask for theme adaptation
+- **Location**: `snappass/static/images/link-break.svg`
+- **Used in**: `snappass/templates/expired.html` via CSS mask in `snappass/static/snappass/css/custom.css`
+
+### Check Big Icon
+- **Source**: https://www.svgrepo.com/svg/510899/check-big
+- **License**: CC Attribution License (https://creativecommons.org/licenses/by/4.0/)
+- **Modifications**: Changed stroke color from #000000 to white
+- **Location**: `snappass/static/images/check-big.svg`
+- **Used in**: Copy success feedback via `snappass/static/snappass/scripts/clipboard_button.js`
+
+### Arrow Right MD Icon
+- **Source**: https://www.svgrepo.com/svg/510814/arrow-right-md
+- **License**: CC Attribution License (https://creativecommons.org/licenses/by/4.0/)
+- **Modifications**: None - used as CSS mask for theme adaptation
+- **Location**: `snappass/static/images/arrow-right-md.svg`
+- **Used in**: `snappass/templates/confirm.html`, `snappass/templates/password.html` via CSS mask in `snappass/static/snappass/css/custom.css`
+

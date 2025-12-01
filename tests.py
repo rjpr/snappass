@@ -18,9 +18,9 @@ import snappass.main as snappass
 __author__ = 'davedash'
 
 
+@mock.patch('redis.client.StrictRedis', FakeStrictRedis)
 class SnapPassTestCase(TestCase):
 
-    @mock.patch('redis.client.StrictRedis', FakeStrictRedis)
     def test_get_password(self):
         password = "melatonin overdose 1337!$"
         key = snappass.set_password(password, 30)
@@ -31,8 +31,8 @@ class SnapPassTestCase(TestCase):
     def test_password_is_not_stored_in_plaintext(self):
         password = "trustno1"
         token = snappass.set_password(password, 30)
-        redis_key = token.split(snappass.TOKEN_SEPARATOR)[0]
-        stored_password_text = snappass.redis_client.get(redis_key).decode('utf-8')
+        storage_key, _ = snappass.parse_token(token)
+        stored_password_text = snappass.redis_client.get(storage_key).decode('utf-8')
         self.assertNotIn(password, stored_password_text)
 
     def test_returned_token_format(self):
@@ -40,8 +40,12 @@ class SnapPassTestCase(TestCase):
         token = snappass.set_password(password, 30)
         token_fragments = token.split(snappass.TOKEN_SEPARATOR)
         self.assertEqual(2, len(token_fragments))
-        redis_key, encryption_key = token_fragments
-        self.assertEqual(32 + len(snappass.REDIS_PREFIX), len(redis_key))
+        token_key, encryption_key = token_fragments
+        # Token key should be TOKEN_PREFIX + 32-char UUID
+        self.assertEqual(32 + len(snappass.TOKEN_PREFIX), len(token_key))
+        # Verify storage key is correctly constructed with REDIS_PREFIX
+        storage_key, decryption_key = snappass.parse_token(token)
+        self.assertEqual(32 + len(snappass.REDIS_PREFIX), len(storage_key))
         try:
             Fernet(encryption_key.encode('utf-8'))
         except ValueError:
@@ -50,18 +54,20 @@ class SnapPassTestCase(TestCase):
     def test_encryption_key_is_returned(self):
         password = "trustany1"
         token = snappass.set_password(password, 30)
-        token_fragments = token.split(snappass.TOKEN_SEPARATOR)
-        redis_key, encryption_key = token_fragments
-        stored_password = snappass.redis_client.get(redis_key)
-        fernet = Fernet(encryption_key.encode('utf-8'))
+        storage_key, decryption_key = snappass.parse_token(token)
+        stored_password = snappass.redis_client.get(storage_key)
+        fernet = Fernet(decryption_key)
         decrypted_password = fernet.decrypt(stored_password).decode('utf-8')
         self.assertEqual(password, decrypted_password)
 
     def test_unencrypted_passwords_still_work(self):
         unencrypted_password = "trustevery1"
-        storage_key = uuid.uuid4().hex
+        uuid_part = uuid.uuid4().hex
+        storage_key = snappass.REDIS_PREFIX + uuid_part
         snappass.redis_client.setex(storage_key, 30, unencrypted_password)
-        retrieved_password = snappass.get_password(storage_key)
+        # Pass token without encryption key (no TOKEN_SEPARATOR) to test legacy format
+        token = uuid_part
+        retrieved_password = snappass.get_password(token)
         self.assertEqual(unencrypted_password, retrieved_password)
 
     def test_password_is_decoded(self):
@@ -99,6 +105,126 @@ class SnapPassTestCase(TestCase):
         key = snappass.set_password(password, 1)
         time.sleep(1.5)
         self.assertIsNone(snappass.get_password(key))
+
+    def test_token_prefix_default_empty(self):
+        """Test that tokens work correctly with empty TOKEN_PREFIX (default)"""
+        password = "test_password"
+        # Ensure TOKEN_PREFIX is empty (default)
+        original_prefix = snappass.TOKEN_PREFIX
+        snappass.TOKEN_PREFIX = ''
+        try:
+            token = snappass.set_password(password, 30)
+            token_fragments = token.split(snappass.TOKEN_SEPARATOR)
+            token_key = token_fragments[0]
+            # With empty prefix, token key should be just the UUID (32 chars)
+            self.assertEqual(32, len(token_key))
+            # Verify password retrieval works
+            self.assertEqual(password, snappass.get_password(token))
+        finally:
+            snappass.TOKEN_PREFIX = original_prefix
+
+    def test_token_prefix_custom(self):
+        """Test that tokens work correctly with a custom TOKEN_PREFIX"""
+        password = "test_password"
+        original_prefix = snappass.TOKEN_PREFIX
+        snappass.TOKEN_PREFIX = 'myapp'
+        try:
+            token = snappass.set_password(password, 30)
+            token_fragments = token.split(snappass.TOKEN_SEPARATOR)
+            token_key = token_fragments[0]
+            # Token key should start with the prefix
+            self.assertTrue(token_key.startswith('myapp'))
+            # Token key length should be prefix + UUID (32 chars)
+            self.assertEqual(32 + len('myapp'), len(token_key))
+            # Verify password retrieval works
+            self.assertEqual(password, snappass.get_password(token))
+        finally:
+            snappass.TOKEN_PREFIX = original_prefix
+
+    def test_parse_token_with_prefix(self):
+        """Test parse_token correctly handles tokens with TOKEN_PREFIX"""
+        original_prefix = snappass.TOKEN_PREFIX
+        original_redis_prefix = snappass.REDIS_PREFIX
+        snappass.TOKEN_PREFIX = 'myprefix'
+        snappass.REDIS_PREFIX = 'redis'
+        try:
+            uuid_part = uuid.uuid4().hex
+            encryption_key = 'test_encryption_key'
+            token = f'myprefix{uuid_part}~{encryption_key}'
+
+            storage_key, decryption_key = snappass.parse_token(token)
+
+            # Storage key should use REDIS_PREFIX, not TOKEN_PREFIX
+            self.assertEqual(f'redis{uuid_part}', storage_key)
+            self.assertEqual(encryption_key.encode('utf-8'), decryption_key)
+        finally:
+            snappass.TOKEN_PREFIX = original_prefix
+            snappass.REDIS_PREFIX = original_redis_prefix
+
+    def test_parse_token_without_prefix(self):
+        """Test parse_token correctly handles tokens without TOKEN_PREFIX"""
+        original_prefix = snappass.TOKEN_PREFIX
+        original_redis_prefix = snappass.REDIS_PREFIX
+        snappass.TOKEN_PREFIX = ''
+        snappass.REDIS_PREFIX = 'redis'
+        try:
+            uuid_part = uuid.uuid4().hex
+            encryption_key = 'test_encryption_key'
+            token = f'{uuid_part}~{encryption_key}'
+
+            storage_key, decryption_key = snappass.parse_token(token)
+
+            # Storage key should use REDIS_PREFIX
+            self.assertEqual(f'redis{uuid_part}', storage_key)
+            self.assertEqual(encryption_key.encode('utf-8'), decryption_key)
+        finally:
+            snappass.TOKEN_PREFIX = original_prefix
+            snappass.REDIS_PREFIX = original_redis_prefix
+
+    def test_parse_token_legacy_format(self):
+        """Test parse_token handles legacy tokens without encryption key"""
+        original_prefix = snappass.TOKEN_PREFIX
+        original_redis_prefix = snappass.REDIS_PREFIX
+        snappass.TOKEN_PREFIX = ''
+        snappass.REDIS_PREFIX = 'snappass'
+        try:
+            uuid_part = uuid.uuid4().hex
+            # Legacy format: just UUID, no separator or encryption key
+            token = uuid_part
+
+            storage_key, decryption_key = snappass.parse_token(token)
+
+            # Storage key should use REDIS_PREFIX + UUID
+            self.assertEqual(f'snappass{uuid_part}', storage_key)
+            # No decryption key for legacy format
+            self.assertIsNone(decryption_key)
+        finally:
+            snappass.TOKEN_PREFIX = original_prefix
+            snappass.REDIS_PREFIX = original_redis_prefix
+
+    def test_token_prefix_independence_from_redis_prefix(self):
+        """Test that TOKEN_PREFIX and REDIS_PREFIX work independently"""
+        password = "test_password"
+        original_token_prefix = snappass.TOKEN_PREFIX
+        original_redis_prefix = snappass.REDIS_PREFIX
+        snappass.TOKEN_PREFIX = 'url'
+        snappass.REDIS_PREFIX = 'storage'
+        try:
+            token = snappass.set_password(password, 30)
+            token_key = token.split(snappass.TOKEN_SEPARATOR)[0]
+
+            # Token should use TOKEN_PREFIX
+            self.assertTrue(token_key.startswith('url'))
+
+            # Storage key should use REDIS_PREFIX
+            storage_key, _ = snappass.parse_token(token)
+            self.assertTrue(storage_key.startswith('storage'))
+
+            # Verify password retrieval works
+            self.assertEqual(password, snappass.get_password(token))
+        finally:
+            snappass.TOKEN_PREFIX = original_token_prefix
+            snappass.REDIS_PREFIX = original_redis_prefix
 
 
 class SnapPassRoutesTestCase(TestCase):

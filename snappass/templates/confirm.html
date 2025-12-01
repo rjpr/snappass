@@ -1,27 +1,24 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container">
-  <section>
-    <div class="page-header"><h1>{{ _('Share Secret Link') }}</h1></div>
-    <p>{{ _('The secret has been temporarily saved. Send the following URL to your intended recipient.') }}</p>
-    <div class="row">
-      <div class="col-sm-6 margin-bottom-10">
-        <input type="text" class="form-control" id="password-link" value="{{ password_link }}" readonly="readonly">
-      </div>
-
-      <div class="col-sm-6">
-        <button title="{{ _('Copy to clipboard') }}" type="button" class="btn btn-primary copy-clipboard-btn"
-              id="copy-clipboard-btn" data-clipboard-target="#password-link"
-              data-placement='bottom'>
-          <i class="fa fa-clipboard"></i>
-        </button>
-      </div>
-    </div>
-  </section>
-</div>
+<article>
+  <p>{{ _('Secret link created. Share this one-time use URL:') }}</p>
+  
+  <div role="group">
+    <input type="text" id="password-link" value="{{ password_link }}" readonly style="text-overflow: ellipsis;">
+    <button type="button" id="copy-clipboard-btn" class="copy-btn" data-clipboard-target="#password-link" data-tooltip="{{ _('Copy to clipboard') }}" data-placement="top">
+      <img src="{{ config.STATIC_URL }}/images/copy.svg" alt="" width="26">
+    </button>
+  </div>
+  
+  <a href="{{ url_for('index') }}" role="button" class="outline secondary full-width">
+    {{ _('Share Another Secret') }}
+    <div class="arrow-icon"></div>
+  </a>
+</article>
 {% endblock %}
 
 {% block js %}
+<script src="{{ config.STATIC_URL }}/clipboardjs/clipboard.2.0.11.min.js"></script>
 <script src="{{ config.STATIC_URL }}/snappass/scripts/clipboard_button.js"></script>
 {% endblock %}

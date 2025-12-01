@@ -8,7 +8,7 @@ RUN groupadd -r snappass && \
 
 WORKDIR $APP_DIR
 
-COPY ["setup.py", "requirements.txt", "MANIFEST.in", "README.rst", "AUTHORS.rst", "$APP_DIR/"]
+COPY ["setup.py", "requirements.txt", "MANIFEST.in", "README.md", "AUTHORS.md", "$APP_DIR/"]
 COPY ["./snappass", "$APP_DIR/snappass"]
 
 RUN pip install -r requirements.txt

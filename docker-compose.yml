@@ -2,7 +2,7 @@ services:
 
     snappass:
         build: .
-        image: pinterest/snappass
+        image: rjpr/snappass
         ports:
             - "5000:5000"
         stop_signal: SIGINT

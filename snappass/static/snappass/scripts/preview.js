@@ -1,10 +1,11 @@
 (function () {
 
-  $('#revealSecret').click(function () {
-    var form = $('<form/>')
-      .attr('id', 'revealSecretForm')
-      .attr('method', 'post');
-    form.appendTo($('body'));
+  document.getElementById('revealSecret').addEventListener('click', function () {
+    var form = document.createElement('form');
+    form.id = 'revealSecretForm';
+    form.method = 'post';
+    document.body.appendChild(form);
     form.submit();
   });
+
 })();
