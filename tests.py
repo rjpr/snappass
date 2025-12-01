@@ -95,6 +95,32 @@ class SnapPassTestCase(TestCase):
                 "/", data={'password': 'foo', 'ttl': 'hour'}, method='POST'):
             self.assertEqual((3600, 'foo'), snappass.clean_input())
 
+    def test_clean_input_password_too_long(self):
+        # Password exceeds MAX_SECRET_LENGTH
+        original_max_length = snappass.MAX_SECRET_LENGTH
+        snappass.MAX_SECRET_LENGTH = 100
+        try:
+            long_password = 'a' * 101
+            with snappass.app.test_request_context(
+                    "/", data={'password': long_password, 'ttl': 'hour'}, method='POST'):
+                self.assertRaises(BadRequest, snappass.clean_input)
+        finally:
+            snappass.MAX_SECRET_LENGTH = original_max_length
+
+    def test_clean_input_password_at_limit(self):
+        # Password exactly at MAX_SECRET_LENGTH should be accepted
+        original_max_length = snappass.MAX_SECRET_LENGTH
+        snappass.MAX_SECRET_LENGTH = 100
+        try:
+            limit_password = 'a' * 100
+            with snappass.app.test_request_context(
+                    "/", data={'password': limit_password, 'ttl': 'hour'}, method='POST'):
+                ttl, password = snappass.clean_input()
+                self.assertEqual(3600, ttl)
+                self.assertEqual(limit_password, password)
+        finally:
+            snappass.MAX_SECRET_LENGTH = original_max_length
+
     def test_password_before_expiration(self):
         password = 'fidelio'
         key = snappass.set_password(password, 1)
@@ -232,6 +258,13 @@ class SnapPassRoutesTestCase(TestCase):
     def setUp(self):
         snappass.app.config['TESTING'] = True
         self.app = snappass.app.test_client()
+        # Enable API for tests since it's disabled by default
+        self.original_enable_api = snappass.ENABLE_API
+        snappass.ENABLE_API = True
+
+    def tearDown(self):
+        # Restore original ENABLE_API value
+        snappass.ENABLE_API = self.original_enable_api
 
     def test_health_check(self):
         response = self.app.get('/_/_/health')
@@ -328,6 +361,20 @@ class SnapPassRoutesTestCase(TestCase):
             frozen_time.move_to("2020-05-22 12:00:00")
             self.assertIsNone(snappass.get_password(key))
 
+    def test_set_password_api_too_long(self):
+        original_max_length = snappass.MAX_SECRET_LENGTH
+        snappass.MAX_SECRET_LENGTH = 100
+        try:
+            long_password = 'a' * 101
+            rv = self.app.post(
+                '/api/set_password/',
+                headers={'Accept': 'application/json'},
+                json={'password': long_password},
+            )
+            self.assertEqual(rv.status_code, 500)
+        finally:
+            snappass.MAX_SECRET_LENGTH = original_max_length
+
     def test_set_password_api_v2(self):
         with freeze_time("2020-05-08 12:00:00") as frozen_time:
             password = 'my name is my passport. verify me.'
@@ -411,6 +458,45 @@ class SnapPassRoutesTestCase(TestCase):
         self.assertEqual(bad_password['name'], 'password')
         bad_ttl = invalid_params[1]
         self.assertEqual(bad_ttl['name'], 'ttl')
+
+    def test_set_password_api_v2_password_too_long(self):
+        original_max_length = snappass.MAX_SECRET_LENGTH
+        snappass.MAX_SECRET_LENGTH = 100
+        try:
+            long_password = 'a' * 101
+            rv = self.app.post(
+                '/api/v2/passwords',
+                headers={'Accept': 'application/json'},
+                json={'password': long_password},
+            )
+
+            self.assertEqual(rv.status_code, 400)
+
+            json_content = rv.get_json()
+            invalid_params = json_content['invalid-params']
+            self.assertEqual(len(invalid_params), 1)
+            bad_password = invalid_params[0]
+            self.assertEqual(bad_password['name'], 'password')
+            self.assertIn('maximum length', bad_password['reason'])
+        finally:
+            snappass.MAX_SECRET_LENGTH = original_max_length
+
+    def test_set_password_api_v2_password_at_limit(self):
+        original_max_length = snappass.MAX_SECRET_LENGTH
+        snappass.MAX_SECRET_LENGTH = 100
+        try:
+            limit_password = 'a' * 100
+            rv = self.app.post(
+                '/api/v2/passwords',
+                headers={'Accept': 'application/json'},
+                json={'password': limit_password},
+            )
+
+            self.assertEqual(rv.status_code, 200)
+            json_content = rv.get_json()
+            self.assertIn('token', json_content)
+        finally:
+            snappass.MAX_SECRET_LENGTH = original_max_length
 
     def test_check_password_api_v2(self):
         password = 'my name is my passport. verify me.'

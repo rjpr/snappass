@@ -11,7 +11,11 @@ services:
     depends_on:
       - redis
     environment:
-      - REDIS_HOST=redis
+      # Redis connection with authentication
+      # Format: redis://[:password@]host[:port][/db]
+      # IMPORTANT: Change the Redis password below
+      - REDIS_URL=redis://:CHANGE_REDIS_PASSWORD@redis:6379/0
+      
       # IMPORTANT: Generate a secure random key for SECRET_KEY
       # Example: openssl rand -hex 32
       - SECRET_KEY=CHANGE_ME_TO_A_RANDOM_SECRET_KEY
@@ -51,11 +55,14 @@ services:
     image: redis:latest
     container_name: snappass-redis
     restart: unless-stopped
+    # IMPORTANT: Change CHANGE_REDIS_PASSWORD to match the password in REDIS_URL above
+    # Can be generated the same way as the SECRET_KEY above: openssl rand -hex 32
+    command: redis-server --requirepass CHANGE_REDIS_PASSWORD
     # If you want to persist Redis data uncomment the following lines
     # volumes:
     #     - redis-data:/data
-    # command: redis-server --appendonly yes
-    # Optionally expose Redis port for monitoring (not recommended for production)
+    # command: redis-server --requirepass CHANGE_REDIS_PASSWORD --appendonly yes
+    # SECURITY: Do not expose Redis port to host in production (optional for local development only)
     # ports:
     #   - "6379:6379"
 
