@@ -159,6 +159,8 @@ SnapPass can be configured via environment variables. All settings work with bot
 
 **`DEFAULT_TTL`**: Set the default expiry time in the password creation form. Valid values: `hour`, `day`, `week`, or `two weeks` (case-insensitive). Defaults to `week`.
 
+**`HIDE_GITHUB_LINK`**: Hide the GitHub icon link at the bottom of the page. Set to `True` to hide. Defaults to `False` (icon visible). Example: `HIDE_GITHUB_LINK=True`
+
 ## APIs
 
 SnapPass provides two APIs for programmatic access:

@@ -33,7 +33,8 @@ app.config.update(
          SITE_TITLE=os.environ.get('SITE_TITLE'),
          DEFAULT_TTL=os.environ.get('DEFAULT_TTL', 'week'),
          THEME_COLOR=os.environ.get('THEME_COLOR'),
-         THEME_MODE=os.environ.get('THEME_MODE')))
+         THEME_MODE=os.environ.get('THEME_MODE'),
+         HIDE_GITHUB_LINK=bool(strtobool(os.environ.get('HIDE_GITHUB_LINK', 'False')))))
 
 
 # Set up Babel

@@ -28,6 +28,14 @@
       {% block content %}{% endblock %}
     </main>
 
+    {% if not config.HIDE_GITHUB_LINK %}
+    <footer class="github-footer">
+      <a href="https://github.com/rjpr/snappass" target="_blank" rel="noopener noreferrer" aria-label="View on GitHub">
+        <div class="github-icon"></div>
+      </a>
+    </footer>
+    {% endif %}
+
     {% block js %}{% endblock %}
   </body>
 </html>
