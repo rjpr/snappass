@@ -6,7 +6,8 @@ services:
     image: rjpr/snappass:latest
     container_name: snappass
     ports:
-      - "5000:5000"
+      - "80:5000" # Optionally disable this to only allow HTTPS
+      - "443:5000"
     restart: unless-stopped
     depends_on:
       - redis
