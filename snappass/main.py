@@ -72,6 +72,7 @@ def set_security_headers(response):
     )
     return response
 
+
 # Initialize Redis
 if os.environ.get('MOCK_REDIS'):
     from fakeredis import FakeStrictRedis
@@ -251,10 +252,10 @@ def clean_input():
     format data to be machine readable
     """
     password = request.form.get('password', '')
-    
+
     if empty(password):
         abort(400)
-    
+
     if len(password) > MAX_SECRET_LENGTH:
         abort(400)
 

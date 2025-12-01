@@ -26,8 +26,6 @@ Simple, secure, and now with a modern interface that respects your users' prefer
 
 ## Security
 
-SnapPass takes security seriously and implements multiple layers of protection:
-
 **Encryption**: Passwords are encrypted using [Fernet](https://cryptography.io/en/latest/fernet/) symmetric encryption, from the [cryptography](https://cryptography.io/en/latest/) library. A random unique key is generated for each password and is never stored; it is sent as part of the password link. This means that even if someone has access to the Redis store, the passwords are still safe.
 
 **Secure by Default**: 
