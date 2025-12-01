@@ -26,9 +26,20 @@ Simple, secure, and now with a modern interface that respects your users' prefer
 
 ## Security
 
-Passwords are encrypted using [Fernet](https://cryptography.io/en/latest/fernet/) symmetric encryption, from the [cryptography](https://cryptography.io/en/latest/) library.
-A random unique key is generated for each password, and is never stored; it is rather sent as part of the password link.
-This means that even if someone has access to the Redis store, the passwords are still safe.
+**Encryption**: Passwords are encrypted using [Fernet](https://cryptography.io/en/latest/fernet/) symmetric encryption, from the [cryptography](https://cryptography.io/en/latest/) library. A random unique key is generated for each password and is never stored; it is sent as part of the password link. This means that even if someone has access to the Redis store, the passwords are still safe.
+
+**Secure by Default**: 
+- API endpoints are **disabled by default** to minimize attack surface
+- Security headers (CSP, X-Frame-Options, X-Content-Type-Options, etc.) are automatically set
+- Session cookies use secure flags (HttpOnly, Secure, SameSite)
+- Redis authentication required in provided Docker configurations
+- Input validation with configurable maximum password length
+
+**Docker Security**:
+- Container runs as non-root user
+- Redis password authentication enabled
+- Redis port not exposed to host by default
+- Persistent data storage with proper permissions
 
 ## Docker Installation (Recommended)
 
@@ -122,9 +133,19 @@ SnapPass can be configured via environment variables. All settings work with bot
 
 **`DEBUG`**: Set to run Flask web server in debug mode. See the [Flask Documentation](http://flask.pocoo.org/docs/quickstart/#debug-mode) for more information.
 
-**`NO_SSL`**: Controls whether generated secret links use `http://` or `https://`. Set to `True` only if users access SnapPass without SSL (e.g., `http://localhost`). This does not enable/disable SSL on the server itself.
+**`NO_SSL`**: Controls SSL-related behavior. Set to `True` only if users access SnapPass without SSL (e.g., `http://localhost`). When `False` (default):
+  - Generated secret links use `https://` 
+  - Session cookies have the `Secure` flag set (cookies only sent over HTTPS)
+  
+  When `True`:
+  - Generated secret links use `http://`
+  - Session cookies can be sent over HTTP (less secure)
+  
+  Note: This setting does not enable/disable SSL on the server itself, only how the application behaves.
 
 **`ENABLE_API`**: Enables API endpoints (`/api/set_password/` and `/api/v2/*`) for programmatic access. Defaults to `False` (APIs disabled) for security. Set to `True` only if you need programmatic access to SnapPass. When disabled, API endpoints return 404 as if they don't exist. Example: `ENABLE_API=True`
+
+**`MAX_SECRET_LENGTH`**: Maximum allowed password/secret length in bytes. Defaults to `153600` (150KB) which accommodates multiple PGP keys, SSH private keys, or large text messages. Requests exceeding this limit are rejected. Example: `MAX_SECRET_LENGTH=100000`
 
 ### Server Configuration
 
@@ -146,7 +167,7 @@ SnapPass can be configured via environment variables. All settings work with bot
 
 **`SNAPPASS_REDIS_DB`**: Redis database number (defaults to `0`)
 
-**`REDIS_URL`**: Complete Redis URL (optional). If set, overrides `REDIS_HOST`, `REDIS_PORT`, and `SNAPPASS_REDIS_DB`. Example: `redis://username:password@localhost:6379/0`
+**`REDIS_URL`**: Complete Redis URL (optional). If set, overrides `REDIS_HOST`, `REDIS_PORT`, and `SNAPPASS_REDIS_DB`. **Recommended for production** as it supports authentication. Format: `redis://[:password@]host[:port][/db]`. Example: `redis://:mypassword@localhost:6379/0`
 
 **`REDIS_PREFIX`**: Prefix for Redis keys to prevent collisions (defaults to `"snappass"`)
 

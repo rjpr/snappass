@@ -19,6 +19,7 @@ NO_SSL = bool(strtobool(os.environ.get('NO_SSL', 'False')))
 URL_PREFIX = os.environ.get('URL_PREFIX', None)
 HOST_OVERRIDE = os.environ.get('HOST_OVERRIDE', None)
 ENABLE_API = bool(strtobool(os.environ.get('ENABLE_API', 'False')))
+MAX_SECRET_LENGTH = int(os.environ.get('MAX_SECRET_LENGTH', 153600))  # Default 150KB
 TOKEN_SEPARATOR = '~'
 
 # Initialize Flask Application
@@ -36,7 +37,11 @@ app.config.update(
          DEFAULT_TTL=os.environ.get('DEFAULT_TTL', 'week'),
          THEME_COLOR=os.environ.get('THEME_COLOR'),
          THEME_MODE=os.environ.get('THEME_MODE'),
-         HIDE_GITHUB_LINK=bool(strtobool(os.environ.get('HIDE_GITHUB_LINK', 'False')))))
+         HIDE_GITHUB_LINK=bool(strtobool(os.environ.get('HIDE_GITHUB_LINK', 'False'))),
+         # Session security
+         SESSION_COOKIE_SECURE=not NO_SSL,
+         SESSION_COOKIE_HTTPONLY=True,
+         SESSION_COOKIE_SAMESITE='Lax'))
 
 
 # Set up Babel
@@ -45,6 +50,28 @@ def get_locale():
 
 
 babel = Babel(app, locale_selector=get_locale)
+
+
+# Security headers
+@app.after_request
+def set_security_headers(response):
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+    response.headers['X-Frame-Options'] = 'DENY'
+    response.headers['X-XSS-Protection'] = '1; mode=block'
+    response.headers['Referrer-Policy'] = 'no-referrer'
+    response.headers['Content-Security-Policy'] = (
+        "default-src 'self'; "
+        "script-src 'self' 'unsafe-inline'; "
+        "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; "
+        "img-src 'self' data:; "
+        "font-src 'self'; "
+        "connect-src 'self'; "
+        "frame-ancestors 'none'; "
+        "base-uri 'self'; "
+        "form-action 'self'"
+    )
+    return response
+
 
 # Initialize Redis
 if os.environ.get('MOCK_REDIS'):
@@ -224,7 +251,12 @@ def clean_input():
     Make sure we're not getting bad data from the front end,
     format data to be machine readable
     """
-    if empty(request.form.get('password', '')):
+    password = request.form.get('password', '')
+
+    if empty(password):
+        abort(400)
+
+    if len(password) > MAX_SECRET_LENGTH:
         abort(400)
 
     if empty(request.form.get('ttl', '')):
@@ -234,7 +266,7 @@ def clean_input():
     if time_period not in TIME_CONVERSION:
         abort(400)
 
-    return TIME_CONVERSION[time_period], request.form['password']
+    return TIME_CONVERSION[time_period], password
 
 
 def set_base_url(req):
@@ -281,7 +313,7 @@ def handle_password():
 def api_handle_password():
     password = request.json.get('password')
     ttl = int(request.json.get('ttl', DEFAULT_API_TTL))
-    if password and isinstance(ttl, int) and ttl <= MAX_TTL:
+    if password and len(password) <= MAX_SECRET_LENGTH and isinstance(ttl, int) and ttl <= MAX_TTL:
         token = set_password(password, ttl)
         base_url = set_base_url(request)
         link = base_url + quote_plus(token)
@@ -302,6 +334,11 @@ def api_v2_set_password():
         invalid_params.append({
             "name": "password",
             "reason": "The password is required and should not be null or empty."
+        })
+    elif len(password) > MAX_SECRET_LENGTH:
+        invalid_params.append({
+            "name": "password",
+            "reason": f"The password exceeds the maximum length of {MAX_SECRET_LENGTH} characters."
         })
 
     if not isinstance(ttl, int) or ttl > MAX_TTL:
