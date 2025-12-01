@@ -48,10 +48,9 @@ The recommended way to run SnapPass is using Docker Compose, which sets up both 
 ### Using Docker Compose
 
 1. Download the production-ready example configuration:
-   ```bash
-   curl -O https://raw.githubusercontent.com/rjpr/snappass/master/docker-compose.example.yml
-   mv docker-compose.example.yml docker-compose.yml
-   ```
+    ```bash
+    curl -o docker-compose.yml https://raw.githubusercontent.com/rjpr/snappass/master/docker-compose.example.yml
+    ```
 
 2. Edit `docker-compose.yml` and customize the environment variables (see comments in file)
 
