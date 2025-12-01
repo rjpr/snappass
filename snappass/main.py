@@ -1,6 +1,7 @@
 import os
 import sys
 import uuid
+from functools import wraps
 
 import redis
 
@@ -17,6 +18,7 @@ from flask_babel import Babel, _  # noqa: F401
 NO_SSL = bool(strtobool(os.environ.get('NO_SSL', 'False')))
 URL_PREFIX = os.environ.get('URL_PREFIX', None)
 HOST_OVERRIDE = os.environ.get('HOST_OVERRIDE', None)
+ENABLE_API = bool(strtobool(os.environ.get('ENABLE_API', 'False')))
 TOKEN_SEPARATOR = '~'
 
 # Initialize Flask Application
@@ -79,6 +81,19 @@ def check_redis_alive(fn):
             else:
                 return abort(500)
 
+    return inner
+
+
+def require_api_enabled(fn):
+    """
+    Decorator to check if API endpoints are enabled.
+    Returns 404 if ENABLE_API is False to make endpoints appear non-existent.
+    """
+    @wraps(fn)
+    def inner(*args, **kwargs):
+        if not ENABLE_API:
+            abort(404)
+        return fn(*args, **kwargs)
     return inner
 
 
@@ -262,6 +277,7 @@ def handle_password():
 
 
 @app.route('/api/set_password/', methods=['POST'])
+@require_api_enabled
 def api_handle_password():
     password = request.json.get('password')
     ttl = int(request.json.get('ttl', DEFAULT_API_TTL))
@@ -275,6 +291,7 @@ def api_handle_password():
 
 
 @app.route('/api/v2/passwords', methods=['POST'])
+@require_api_enabled
 def api_v2_set_password():
     password = request.json.get('password')
     ttl = int(request.json.get('ttl', DEFAULT_API_TTL))
@@ -322,6 +339,7 @@ def api_v2_set_password():
 
 
 @app.route('/api/v2/passwords/<token>', methods=['HEAD'])
+@require_api_enabled
 def api_v2_check_password(token):
     token = unquote_plus(token)
     if not password_exists(token):
@@ -333,6 +351,7 @@ def api_v2_check_password(token):
 
 
 @app.route('/api/v2/passwords/<token>', methods=['GET'])
+@require_api_enabled
 def api_v2_retrieve_password(token):
     token = unquote_plus(token)
     password = get_password(token)

@@ -16,6 +16,10 @@ services:
       # Example: openssl rand -hex 32
       - SECRET_KEY=CHANGE_ME_TO_A_RANDOM_SECRET_KEY
       
+      # Security: APIs are DISABLED by default. Uncomment to enable programmatic access.
+      # Only enable if you need the API endpoints for automation/integration.
+      # - ENABLE_API=True
+      
       # URL Generation - Only affects whether generated links use http:// or https://
       # Set NO_SSL=True ONLY if users access the site without SSL (e.g. http://localhost)
       # Leave unset (defaults to False) if using HTTPS, even behind a reverse proxy
