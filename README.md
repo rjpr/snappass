@@ -1,6 +1,7 @@
 # SnapPass
 
 [![Docker Image](https://img.shields.io/docker/v/rjpr/snappass?label=docker)](https://hub.docker.com/r/rjpr/snappass)
+[![GitHub Container Registry](https://img.shields.io/badge/ghcr.io-rjpr%2Fsnappass-blue?logo=github)](https://github.com/rjpr/snappass/pkgs/container/snappass)
 
 **A modernized fork of Pinterest's SnapPass** - Share secrets securely through encrypted, one-time use links.
 
@@ -31,32 +32,14 @@ This means that even if someone has access to the Redis store, the passwords are
 
 ## Docker Installation (Recommended)
 
-The recommended way to run SnapPass is using [Docker](https://www.docker.com/). You'll need a Redis instance running separately.
-
-### Quick Start with Docker
-
-```bash
-# Start Redis
-docker run -d --name redis redis:latest
-
-# Run SnapPass (linking to Redis)
-docker run -d \
-  --name snappass \
-  --link redis:redis \
-  -p 5000:5000 \
-  -e REDIS_HOST=redis \
-  rjpr/snappass
-```
-
-SnapPass will be accessible at http://localhost:5000
+The recommended way to run SnapPass is using Docker Compose, which sets up both SnapPass and Redis together.
 
 ### Using Docker Compose
 
-For easier management, use Docker Compose:
-
-1. Copy the production-ready example configuration:
+1. Download the production-ready example configuration:
    ```bash
-   cp docker-compose.example.yml docker-compose.yml
+   curl -O https://raw.githubusercontent.com/rjpr/snappass/master/docker-compose.example.yml
+   mv docker-compose.example.yml docker-compose.yml
    ```
 
 2. Edit `docker-compose.yml` and customize the environment variables (see comments in file)
@@ -68,7 +51,27 @@ For easier management, use Docker Compose:
    docker-compose up -d
    ```
 
+SnapPass will be accessible at http://localhost:5000
+
 The example configuration includes Redis persistence, security settings, and comprehensive comments for all options. Review the Configuration section below for details on each setting.
+
+### Alternative: Using Docker Run
+
+If you prefer to manage containers separately:
+
+```bash
+# Start Redis
+docker run -d --name redis redis:latest
+
+# Run SnapPass
+docker run -d \
+  --name snappass \
+  --link redis:redis \
+  -p 5000:5000 \
+  -e REDIS_HOST=redis \
+  -e SECRET_KEY=your-secret-key-here \
+  rjpr/snappass
+```
 
 ## Alternative Installation
 
