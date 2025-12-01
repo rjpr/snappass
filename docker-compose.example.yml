@@ -11,6 +11,7 @@ services:
     depends_on:
       - redis
     environment:
+      - REDIS_HOST=redis
       # IMPORTANT: Generate a secure random key for SECRET_KEY
       # Example: openssl rand -hex 32
       - SECRET_KEY=CHANGE_ME_TO_A_RANDOM_SECRET_KEY
@@ -46,11 +47,10 @@ services:
     image: redis:latest
     container_name: snappass-redis
     restart: unless-stopped
-    # Persist Redis data
-    volumes:
-      - redis-data:/data
-    # Redis configuration for persistence
-    command: redis-server --appendonly yes
+    # If you want to persist Redis data uncomment the following lines
+    # volumes:
+    #     - redis-data:/data
+    # command: redis-server --appendonly yes
     # Optionally expose Redis port for monitoring (not recommended for production)
     # ports:
     #   - "6379:6379"
