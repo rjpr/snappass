@@ -151,9 +151,9 @@ class SnapPassTestCase(TestCase):
             uuid_part = uuid.uuid4().hex
             encryption_key = 'test_encryption_key'
             token = f'myprefix{uuid_part}~{encryption_key}'
-            
+
             storage_key, decryption_key = snappass.parse_token(token)
-            
+
             # Storage key should use REDIS_PREFIX, not TOKEN_PREFIX
             self.assertEqual(f'redis{uuid_part}', storage_key)
             self.assertEqual(encryption_key.encode('utf-8'), decryption_key)
@@ -171,9 +171,9 @@ class SnapPassTestCase(TestCase):
             uuid_part = uuid.uuid4().hex
             encryption_key = 'test_encryption_key'
             token = f'{uuid_part}~{encryption_key}'
-            
+
             storage_key, decryption_key = snappass.parse_token(token)
-            
+
             # Storage key should use REDIS_PREFIX
             self.assertEqual(f'redis{uuid_part}', storage_key)
             self.assertEqual(encryption_key.encode('utf-8'), decryption_key)
@@ -191,9 +191,9 @@ class SnapPassTestCase(TestCase):
             uuid_part = uuid.uuid4().hex
             # Legacy format: just UUID, no separator or encryption key
             token = uuid_part
-            
+
             storage_key, decryption_key = snappass.parse_token(token)
-            
+
             # Storage key should use REDIS_PREFIX + UUID
             self.assertEqual(f'snappass{uuid_part}', storage_key)
             # No decryption key for legacy format
@@ -212,14 +212,14 @@ class SnapPassTestCase(TestCase):
         try:
             token = snappass.set_password(password, 30)
             token_key = token.split(snappass.TOKEN_SEPARATOR)[0]
-            
+
             # Token should use TOKEN_PREFIX
             self.assertTrue(token_key.startswith('url'))
-            
+
             # Storage key should use REDIS_PREFIX
             storage_key, _ = snappass.parse_token(token)
             self.assertTrue(storage_key.startswith('storage'))
-            
+
             # Verify password retrieval works
             self.assertEqual(password, snappass.get_password(token))
         finally:

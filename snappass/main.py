@@ -25,7 +25,10 @@ if os.environ.get('DEBUG'):
     app.debug = True
 app.secret_key = os.environ.get('SECRET_KEY', 'Secret Key')
 app.config.update(
-    dict(PICO_THEMES=['amber', 'blue', 'cyan', 'fuchsia', 'green', 'grey', 'indigo', 'jade', 'lime', 'orange', 'pink', 'pumpkin', 'purple', 'red', 'sand', 'slate', 'violet', 'yellow', 'zinc'],
+    dict(PICO_THEMES=['amber', 'blue', 'cyan', 'fuchsia', 'green', 'grey',
+                      'indigo', 'jade', 'lime', 'orange', 'pink', 'pumpkin',
+                      'purple', 'red', 'sand', 'slate', 'violet', 'yellow',
+                      'zinc'],
          STATIC_URL=os.environ.get('STATIC_URL', 'static'),
          SITE_TITLE=os.environ.get('SITE_TITLE'),
          DEFAULT_TTL=os.environ.get('DEFAULT_TTL', 'week'),
@@ -101,14 +104,14 @@ def decrypt(password, decryption_key):
 def parse_token(token):
     token_fragments = token.split(TOKEN_SEPARATOR, 1)  # Split once, not more.
     token_key = token_fragments[0]
-    
+
     # Extract UUID by removing TOKEN_PREFIX if present
     if TOKEN_PREFIX and token_key.startswith(TOKEN_PREFIX):
         uuid_part = token_key[len(TOKEN_PREFIX):]
     else:
         # No prefix, token_key is the UUID
         uuid_part = token_key
-    
+
     # Reconstruct storage_key with REDIS_PREFIX
     storage_key = REDIS_PREFIX + uuid_part
 
