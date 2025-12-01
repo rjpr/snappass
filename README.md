@@ -10,33 +10,23 @@ This version features a modern UI with Pico CSS theming, dark mode support, and 
 
 ## Overview
 
-SnapPass is a web application that lets you share passwords and sensitive data securely.
+SnapPass is a web application for sharing passwords and sensitive data through secure, self-destructing links. Share a secret via URL that expires after being viewed once or after a time limit — no permanent record in email or chat logs.
 
-Let's say you have a password. You want to give it to your coworker, Jane.
-You could email it to her, but then it's in her email, which might be backed up,
-and probably is in some storage device controlled by the NSA.
+**What's New in This Fork:**
+- Modern, lightweight UI with Pico CSS (95% smaller than Bootstrap)
+- Dark mode with automatic system detection
+- 20 color themes plus custom color support
+- Faster load times and improved mobile experience
+- Enhanced configuration with environment variables
+- Production-ready Docker deployment
+- Python 3.9-3.13 support with latest dependencies
 
-You could send it to her over chat, but chances are Jane logs all her messages
-because she uses Google Hangouts Chat, and Google Hangouts Chat might log everything.
-
-You could write it down, but you can't find a pen, and there's way too many
-characters because your security person, Paul, is paranoid.
-
-So we built SnapPass. It's not that complicated, it does one thing. If
-Jane gets a link to the password and never looks at it, the password goes away.
-If the NSA gets a hold of the link, and they look at the password... well they
-have the password. Also, Jane can't get the password, but now Jane knows that
-not only is someone looking in her email, they are clicking on links.
-
-Anyway, this took us very little time to write, but we figure we'd save you the
-trouble of writing it yourself, because maybe you are busy and have other things
-to do. Enjoy.
+Simple, secure, and now with a modern interface that respects your users' preferences.
 
 ## Security
 
 Passwords are encrypted using [Fernet](https://cryptography.io/en/latest/fernet/) symmetric encryption, from the [cryptography](https://cryptography.io/en/latest/) library.
-A random unique key is generated for each password, and is never stored;
-it is rather sent as part of the password link.
+A random unique key is generated for each password, and is never stored; it is rather sent as part of the password link.
 This means that even if someone has access to the Redis store, the passwords are still safe.
 
 ## Docker Installation (Recommended)
