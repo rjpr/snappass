@@ -1,4 +1,4 @@
-include *.rst LICENSE
+include *.md *.rst LICENSE
 recursive-include snappass/static *
 recursive-include snappass/templates *
 recursive-include snappass/translations *

@@ -1,5 +1,4 @@
-Credits
-=======
+# Credits
 
 "snappass" is originally written and by Owen Coutts and Ryan Park.
 
@@ -20,3 +19,4 @@ Thanks a lot for the contributions of:
 * James Barclay
 * Thomas Decaux
 * Lauri Lubi
+

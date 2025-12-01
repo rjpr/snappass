@@ -1,0 +1,61 @@
+# Production-ready Docker Compose configuration for SnapPass
+# Copy this file to docker-compose.yml and customize for your environment
+
+services:
+  snappass:
+    image: rjpr/snappass:latest
+    container_name: snappass
+    ports:
+      - "5000:5000"
+    restart: unless-stopped
+    depends_on:
+      - redis
+    environment:
+      # IMPORTANT: Generate a secure random key for SECRET_KEY
+      # Example: openssl rand -hex 32
+      - SECRET_KEY=CHANGE_ME_TO_A_RANDOM_SECRET_KEY
+      
+      # URL Generation - Only affects whether generated links use http:// or https://
+      # Set NO_SSL=True ONLY if users access the site without SSL (e.g. http://localhost)
+      # Leave unset (defaults to False) if using HTTPS, even behind a reverse proxy
+      # - NO_SSL=True
+      
+      # Server Configuration (leave as is if using this Docker Compose)
+      # - SNAPPASS_BIND_ADDRESS=0.0.0.0
+      # - SNAPPASS_PORT=5000
+      
+      # Reverse Proxy Settings (if behind nginx, traefik, etc.)
+      # - URL_PREFIX=/snappass/
+      # - HOST_OVERRIDE=snappass.yourdomain.com
+      
+      # Optional: UI Customization
+      # - SITE_TITLE=Share a Secret
+      
+      # Optional: Theme color: amber, blue, cyan, fuchsia, green, grey, indigo, jade, lime,
+      # orange, pink, pumpkin, purple, red, sand, slate, violet, yellow, zinc
+      # Or use custom CSS color value (hex, rgb, hsl)
+      # - THEME_COLOR=indigo
+      
+      # Optional: Force light or dark mode (leave unset for automatic based on user preference)
+      # - THEME_MODE=dark
+      
+      # Optional: Default expiration time: hour, day, week, or two weeks
+      - DEFAULT_TTL=day
+
+  redis:
+    image: redis:latest
+    container_name: snappass-redis
+    restart: unless-stopped
+    # Persist Redis data
+    volumes:
+      - redis-data:/data
+    # Redis configuration for persistence
+    command: redis-server --appendonly yes
+    # Optionally expose Redis port for monitoring (not recommended for production)
+    # ports:
+    #   - "6379:6379"
+
+volumes:
+  redis-data:
+    driver: local
+
