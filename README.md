@@ -124,6 +124,8 @@ SnapPass can be configured via environment variables. All settings work with bot
 
 **`NO_SSL`**: Controls whether generated secret links use `http://` or `https://`. Set to `True` only if users access SnapPass without SSL (e.g., `http://localhost`). This does not enable/disable SSL on the server itself.
 
+**`ENABLE_API`**: Enables API endpoints (`/api/set_password/` and `/api/v2/*`) for programmatic access. Defaults to `False` (APIs disabled) for security. Set to `True` only if you need programmatic access to SnapPass. When disabled, API endpoints return 404 as if they don't exist. Example: `ENABLE_API=True`
+
 ### Server Configuration
 
 **`SNAPPASS_BIND_ADDRESS`**: Override the default bind address of 0.0.0.0. Example: `127.0.0.1`
@@ -165,6 +167,8 @@ SnapPass can be configured via environment variables. All settings work with bot
 **`HIDE_GITHUB_LINK`**: Hide the GitHub icon link at the bottom of the page. Set to `True` to hide. Defaults to `False` (icon visible). Example: `HIDE_GITHUB_LINK=True`
 
 ## APIs
+
+**⚠️ APIs are disabled by default for security.** To use the APIs, you must set `ENABLE_API=True` in your environment configuration.
 
 SnapPass provides two APIs for programmatic access:
 
@@ -306,6 +310,7 @@ If not found:
 
 ### Notes on APIs
 
+* APIs are **disabled by default** for security - set `ENABLE_API=True` to enable them
 * You can specify any TTL lower than the configured maximum
 * Passwords are passed in request bodies (not URLs) to prevent logging
 * Consider exposing `/api` endpoints only to internal networks and placing the web interface behind authentication
