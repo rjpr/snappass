@@ -41,7 +41,7 @@ jobs:
   docker:
     needs: test
     runs-on: ubuntu-latest
-    if: github.event_name != 'pull_request'
+    if: startsWith(github.ref, 'refs/tags/v')
     permissions:
       contents: read
       packages: write
@@ -74,10 +74,9 @@ jobs:
           rjpr/snappass
           ghcr.io/rjpr/snappass
         tags: |
-          type=ref,event=branch
           type=semver,pattern={{version}}
           type=semver,pattern={{major}}.{{minor}}
-          type=raw,value=latest,enable={{is_default_branch}}
+          type=raw,value=latest,enable=${{ !contains(github.ref, '-') }}
 
     - name: Build and push Docker image
       uses: docker/build-push-action@v5
